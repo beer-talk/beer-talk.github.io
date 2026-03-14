@@ -24,40 +24,44 @@ const speakerSessions = allSessions.filter(s =>
 ---
 
 <BaseLayout title={`${name} - {{SITE_NAME}}`} description={`Speaker profile for ${name}`}>
-  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-    <div class="mb-10 text-center">
+  <article class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 min-h-screen">
+    <!-- Abstract glowing orb -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+    
+    <div class="mb-16 text-center relative z-10">
       <div class="inline-block relative">
-        <div class="w-32 h-32 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-800 border-4 border-white dark:border-slate-950 shadow-xl mx-auto mb-6 transition-colors duration-300">
+        <div class="absolute inset-0 bg-accent blur-xl opacity-20 rounded-full"></div>
+        <div class="relative w-40 h-40 rounded-full overflow-hidden bg-[#050812] border-2 border-white/20 mx-auto mb-8 transition-colors duration-500 hover:border-accent">
           {avatarUrl ? (
-            <img src={avatarUrl} alt={name} class="w-full h-full object-cover" />
+            <img src={avatarUrl} alt={name} class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
           ) : (
-            <div class="w-full h-full flex items-center justify-center text-4xl text-slate-400 dark:text-slate-500 font-bold bg-indigo-50 dark:bg-indigo-900/40">
+            <div class="w-full h-full flex items-center justify-center text-4xl text-slate-500 font-bold bg-[#0b0f19]">
               {name.charAt(0)}
             </div>
           )}
         </div>
       </div>
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">{name}</h1>
-      <p class="text-xl text-primary dark:text-indigo-400 font-medium mt-2">
-        {title} {company && <span class="text-slate-500 dark:text-slate-400 font-light">at {company}</span>}
+      <h1 class="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-4 uppercase">{name}</h1>
+      <p class="text-xl sm:text-2xl text-primary dark:text-accent font-light mt-2 max-w-2xl mx-auto tracking-tight">
+        {title} {company && <span class="text-slate-500 dark:text-slate-400 font-medium">@ {company}</span>}
       </p>
       
-      <div class="flex items-center justify-center gap-4 mt-6">
-        {twitter && <a href={twitter} target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-blue-400 dark:text-slate-500 transition-colors">Twitter</a>}
-        {github && <a href={github} target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">GitHub</a>}
-        {linkedin && <a href={linkedin} target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-blue-700 dark:text-slate-500 transition-colors">LinkedIn</a>}
-        {website && <a href={website} target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-primary dark:text-slate-500 transition-colors">Website</a>}
+      <div class="flex items-center justify-center gap-6 mt-8">
+        {twitter && <a href={twitter} target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-400 transition-colors">Twitter</a>}
+        {github && <a href={github} target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">GitHub</a>}
+        {linkedin && <a href={linkedin} target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-500 transition-colors">LinkedIn</a>}
+        {website && <a href={website} target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-accent transition-colors">Website</a>}
       </div>
     </div>
     
-    <div class="prose prose-lg prose-slate dark:prose-invert text-slate-700 dark:text-slate-300 max-w-none mb-16">
+    <div class="prose prose-lg prose-slate dark:prose-invert text-slate-700 dark:text-slate-300 max-w-none mb-24 relative z-10 font-light leading-relaxed">
       <Content />
     </div>
 
     {speakerSessions.length > 0 && (
-      <div class="pt-12 border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
-        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-8">Sessions by {name}</h2>
-        <div class="space-y-4">
+      <div class="pt-16 border-t border-slate-200 dark:border-white/10 relative z-10">
+        <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-10 tracking-tight uppercase">Sessions by {name}</h2>
+        <div class="space-y-6">
           {speakerSessions.map(session => (
             <SessionCard session={session} />
           ))}

@@ -15,28 +15,35 @@ const { name, speakerProposalUrl } = currentEdition?.data || {};
 ---
 
 <BaseLayout title={`Diễn giả - ${name || '{{SITE_NAME}}'}`} description={`Diễn giả nổi bật tại ${name}`}>
-  <div class="bg-slate-50 dark:bg-slate-900 py-16 sm:py-24 transition-colors duration-300 min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">Diễn giả Nổi bật</h1>
-        <p class="text-xl text-slate-500 dark:text-slate-400 font-light">Các chuyên gia chia sẻ về nghiên cứu và kinh nghiệm thực tiễn.</p>
+  <div class="bg-slate-50 dark:bg-[#0b0f19] py-24 sm:py-32 transition-colors duration-300 min-h-screen relative overflow-hidden">
+    <!-- Background element -->
+    <div class="absolute top-0 right-0 w-1/2 h-1/2 bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-24">
+        <h1 class="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tracking-tighter mb-6 uppercase">Diễn giả <span class="text-primary dark:text-accent font-light italic">Nổi bật</span></h1>
+        <div class="w-16 h-1 bg-gradient-to-r from-accent to-primary mx-auto mb-6"></div>
+        <p class="text-xl text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto">Gặp gỡ những chuyên gia chia sẻ về nghiên cứu và kinh nghiệm thực tiễn.</p>
       </div>
       
       {currentSpeakers.length > 0 ? (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {currentSpeakers.map(speaker => (
             <SpeakerCard speaker={speaker} />
           ))}
         </div>
       ) : (
-        <div class="bg-white dark:bg-slate-950 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800 max-w-3xl mx-auto">
-          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Diễn giả sẽ sớm được công bố</h2>
-          <p class="text-lg text-slate-500 dark:text-slate-400 mb-8 font-light">Chúng tôi đang hoàn thiện danh sách khách mời. Vui lòng quay lại sau!</p>
-          {speakerProposalUrl && (
-            <a href={speakerProposalUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-primary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors shadow-sm">
-              Gửi bài trình bày
-            </a>
-          )}
+        <div class="bg-white/50 dark:bg-[#050812] border border-slate-200 dark:border-white/10 rounded-none p-16 text-center max-w-3xl mx-auto relative overflow-hidden">
+          <div class="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-30" style={`background-image: url('${getPath('/grid.svg')}');`}></div>
+          <div class="relative z-10">
+            <h2 class="text-2xl font-black text-slate-900 dark:text-white items-center gap-2 mb-4 tracking-tight"><svg class="inline-block w-6 h-6 text-accent mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>Bảo Mật Bị Khóa</h2>
+            <p class="text-slate-500 dark:text-slate-400 mb-8 font-light max-w-lg mx-auto">Danh sách diễn giả đang được giải mã. Vui lòng quay lại sau khi chúng tôi công bố chính thức!</p>
+            {speakerProposalUrl && (
+              <a href={speakerProposalUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-8 py-4 border border-white/20 text-sm tracking-widest uppercase font-bold text-white bg-transparent hover:border-accent hover:bg-white/5 transition-all focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 dark:focus:ring-offset-[#050812]">
+                Trở thành diễn giả
+              </a>
+            )}
+          </div>
         </div>
       )}
     </div>

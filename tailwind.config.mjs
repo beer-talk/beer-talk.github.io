@@ -7,12 +7,18 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
-        primary: 'var(--color-primary, #4f46e5)', // Indigo-600
-        secondary: 'var(--color-secondary, #334155)', // Slate-700
-        muted: 'var(--color-muted, #f8fafc)', // Slate-50
+        primary: '#ff7e33', // Vibrant Orange
+        secondary: '#1e293b', // Slate-800
+        accent: '#00f0ff', // Cyan glow
+        muted: '#f8fafc', // Slate-50
+      },
+      boxShadow: {
+        'neon': '0 0 15px theme("colors.accent / 40%")',
+        'neon-primary': '0 0 20px theme("colors.primary / 40%")'
       }
     },
   },

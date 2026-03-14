@@ -3,29 +3,29 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  const publishedPosts = posts.filter(p => p.data.status === 'published');
+  const presentations = await getCollection('presentations');
+  const publishedPresentations = presentations.filter(p => p.data.status === 'published');
   
-  return publishedPosts.map(post => ({
-    params: { slug: post.id },
-    props: { post },
+  return publishedPresentations.map(presentation => ({
+    params: { slug: presentation.id },
+    props: { presentation },
   }));
 }
 
-const { post } = Astro.props;
-const { Content, remarkPluginFrontmatter } = await render(post);
+const { presentation } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await render(presentation);
 
-const formattedDate = post.data.date.toLocaleDateString('en-US', {
+const formattedDate = presentation.data.date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 });
 ---
-<BaseLayout title={post.data.title} description={`Đọc ${post.data.title}`}>
+<BaseLayout title={presentation.data.title} description={`Đọc ${presentation.data.title}`}>
   <div class="px-6 sm:px-12 py-16 sm:py-24 max-w-3xl mx-auto">
     <div class="mb-12 border-b border-slate-200 dark:border-slate-800 pb-12 transition-colors duration-300">
       <div class="flex flex-wrap items-center gap-4 text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-6">
-        <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
+        <time datetime={presentation.data.date.toISOString()}>{formattedDate}</time>
         {remarkPluginFrontmatter.minutesRead && (
           <>
             <span class="text-slate-300 dark:text-slate-600">•</span>
@@ -34,15 +34,15 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
         )}
       </div>
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-8">
-        {post.data.title}
+        {presentation.data.title}
       </h1>
-      {post.data.author && (
+      {presentation.data.author && (
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-900/40 flex items-center justify-center text-primary dark:text-indigo-400 font-bold border border-indigo-100 dark:border-indigo-800/50">
-            {post.data.author.charAt(0)}
+            {presentation.data.author.charAt(0)}
           </div>
           <div>
-            <p class="text-slate-900 dark:text-white font-bold">{post.data.author}</p>
+            <p class="text-slate-900 dark:text-white font-bold">{presentation.data.author}</p>
             <p class="text-sm text-slate-500 dark:text-slate-400 font-light">Tác giả</p>
           </div>
         </div>
@@ -56,10 +56,10 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
       <Content />
     </article>
     
-    {post.data.tags && post.data.tags.length > 0 && (
+    {presentation.data.tags && presentation.data.tags.length > 0 && (
       <div class="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div class="flex flex-wrap gap-2">
-          {post.data.tags.map((tag: unknown) => (
+          {presentation.data.tags.map((tag: unknown) => (
             <span class="px-3 py-1 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700">#{tag}</span>
           ))}
         </div>

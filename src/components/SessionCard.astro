@@ -14,49 +14,50 @@ const { title, startTime, endTime, room, sessionType, summary, speakers, resourc
 const speakerEntries = speakers ? await Promise.all(speakers.map(slug => getEntry('speakers', String(slug)))) : [];
 const validSpeakers = speakerEntries.filter((s): s is NonNullable<typeof s> => s !== undefined && s !== null);
 ---
-<div class="pl-6 sm:pl-8 py-8 my-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-primary/30 dark:hover:border-primary/50 transition-all duration-300 ease-out relative overflow-hidden group">
-  <div class="absolute inset-y-0 left-0 w-1.5 bg-slate-200 dark:bg-slate-700 group-hover:bg-primary transition-colors"></div>
-  
-  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
-    <div>
-      <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-primary dark:text-indigo-300 text-xs font-bold uppercase tracking-widest rounded-md">{sessionType}</span>
-        {room && <span class="text-sm font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> {room}</span>}
+<div class="pl-6 sm:pl-10 py-8 my-6 bg-white/5 dark:bg-[#0b0f19]/80 border border-slate-200 dark:border-white/10 rounded-[2rem] hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-xl dark:hover:shadow-neon-primary transition-all duration-500 relative overflow-hidden group backdrop-blur-sm">
+  <div class="absolute inset-y-0 left-0 w-1 bg-slate-200 dark:bg-white/10 group-hover:bg-primary dark:group-hover:bg-primary transition-colors duration-500 shadow-[0_0_10px_rgba(0,255,255,0)] group-hover:shadow-[0_0_15px_theme('colors.primary/50%')]"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+  <div class="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-6">
+    <div class="flex-1">
+      <div class="flex flex-wrap items-center gap-4 mb-4">
+        <span class="px-3 py-1 bg-slate-100 dark:bg-white/10 text-primary dark:text-accent text-[10px] font-bold uppercase tracking-widest border border-slate-200 dark:border-white/10">{sessionType}</span>
+        {room && <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 uppercase tracking-widest"><svg class="w-4 h-4 text-primary dark:text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> {room}</span>}
       </div>
-      <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">{title}</h3>
+      <h3 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight group-hover:text-primary dark:group-hover:text-accent transition-colors">{title}</h3>
     </div>
     
     {(startTime || endTime) && (
       <div class="sm:text-right shrink-0 mt-2 sm:mt-0">
-        <p class="text-base font-bold text-slate-700 dark:text-slate-200 font-mono tracking-tight bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-100 dark:border-slate-700 inline-block shadow-sm">
-          {startTime} {endTime && <span class="text-slate-300 dark:text-slate-500 font-sans mx-2">→</span>} {endTime && endTime}
+        <p class="text-lg font-bold text-slate-900 dark:text-white font-mono tracking-tighter bg-slate-50 dark:bg-[#0b0f19] px-5 py-3 border border-slate-200 dark:border-white/10 inline-block shadow-sm">
+          {startTime} {endTime && <span class="text-primary dark:text-accent font-sans mx-1">→</span>} {endTime && endTime}
         </p>
       </div>
     )}
   </div>
 
-  {summary && <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-6 max-w-3xl text-lg font-light">{summary}</p>}
+  {summary && <p class="relative z-10 text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-3xl text-lg font-light">{summary}</p>}
 
   {validSpeakers.length > 0 && (
-    <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-5">Chủ trì bởi</h4>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div class="relative z-10 mt-8 pt-6 border-t border-slate-200 dark:border-white/10">
+      <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6">Chủ trì bởi</h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {validSpeakers.map(speaker => (
-          <div class="flex items-center gap-4 bg-slate-50/50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-            <div class="w-12 h-12 rounded-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 overflow-hidden shrink-0 flex items-center justify-center shadow-sm">
+          <div class="flex items-center gap-4 bg-slate-50 dark:bg-[#0b0f19] p-3 border border-slate-200 dark:border-white/5 hover:border-primary/30 dark:hover:border-accent/30 transition-colors group/speaker">
+            <div class="w-12 h-12 bg-white dark:bg-[#050812] border border-slate-200 dark:border-white/10 overflow-hidden shrink-0 flex items-center justify-center">
               {speaker.data.avatarUrl ? (
-                <img src={speaker.data.avatarUrl} alt={speaker.data.name} class="w-full h-full object-cover" />
+                <img src={speaker.data.avatarUrl} alt={speaker.data.name} class="w-full h-full object-cover grayscale group-hover/speaker:grayscale-0 transition-all duration-300" />
               ) : (
                 <span class="text-xl text-primary/40 font-bold">{speaker.data.name.charAt(0)}</span>
               )}
             </div>
             <div>
-              <a href={getPath(`/speakers/${speaker.id}`)} class="block text-base font-bold text-slate-900 dark:text-slate-100 hover:text-primary dark:hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-sm">{speaker.data.name}</a>
+              <a href={getPath(`/speakers/${speaker.id}`)} class="block text-sm font-bold text-slate-900 dark:text-white group-hover/speaker:text-primary dark:group-hover/speaker:text-accent transition-colors focus:outline-none focus:ring-1 focus:ring-primary tracking-tight">{speaker.data.name}</a>
               {(speaker.data.title || speaker.data.company) && (
-                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 truncate max-w-[200px]">
+                <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-wider truncate max-w-[200px]">
                   {speaker.data.title}
-                  {speaker.data.title && speaker.data.company && <span class="mx-1.5 text-slate-300 dark:text-slate-600">•</span>}
-                  {speaker.data.company && <span class="text-primary dark:text-indigo-400">{speaker.data.company}</span>}
+                  {speaker.data.title && speaker.data.company && <span class="mx-1 text-primary dark:text-accent opacity-50">•</span>}
+                  {speaker.data.company && <span class="text-primary dark:text-accent">{speaker.data.company}</span>}
                 </p>
               )}
             </div>
@@ -67,10 +68,10 @@ const validSpeakers = speakerEntries.filter((s): s is NonNullable<typeof s> => s
   )}
 
   {resources && resources.length > 0 && (
-     <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-3">
+     <div class="relative z-10 mt-8 pt-6 border-t border-slate-200 dark:border-white/10 flex flex-wrap gap-4">
        {resources.map(res => (
-         <a href={res.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 text-slate-700 dark:text-slate-200 font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition-colors text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-           <svg class="w-4 h-4 text-primary dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+         <a href={res.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 dark:bg-[#0b0f19] hover:bg-white dark:hover:bg-white/5 focus:outline-none focus:ring-1 focus:ring-primary text-slate-900 dark:text-white font-bold text-[10px] uppercase tracking-widest border border-slate-200 dark:border-white/10 transition-all hover:border-primary/50 dark:hover:border-accent/50 group/res">
+           <svg class="w-4 h-4 text-primary dark:text-accent group-hover/res:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
            {res.label}
          </a>
        ))}

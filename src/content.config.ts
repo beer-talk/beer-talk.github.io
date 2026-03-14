@@ -52,7 +52,8 @@ const sessionsCollection = defineCollection({
     edition: z.string(),
     sessionType: z.enum([
       "keynote", "technical talk", "lightning talk", 
-      "panel discussion", "break", "networking", "workshop"
+      "panel discussion", "break", "networking", "workshop",
+      "lunch", "beer", "demo"
     ]).default("technical talk"),
     startTime: z.string().optional(),
     endTime: z.string().optional(),
@@ -68,8 +69,8 @@ const sessionsCollection = defineCollection({
   }),
 });
 
-const postsCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
+const presentationsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/presentations" }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
@@ -88,5 +89,5 @@ export const collections = {
   editions: editionsCollection,
   speakers: speakersCollection,
   sessions: sessionsCollection,
-  posts: postsCollection,
+  presentations: presentationsCollection,
 };

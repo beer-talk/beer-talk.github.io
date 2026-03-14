@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { getPath } from '../utils/paths';
 
 interface Props {
 	title: string;
@@ -13,13 +14,13 @@ const { title, description, image = '/og-image.png' } = Astro.props;
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href={getPath('/favicon.svg')} />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>

@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SpeakerCard from '../../components/SpeakerCard.astro';
 import SessionCard from '../../components/SessionCard.astro';
-import PostCard from '../../components/PostCard.astro';
+import PresentationCard from '../../components/PresentationCard.astro';
 import { getCollection, render } from 'astro:content';
 import { SITE_CONFIG } from '../../content/site-config';
 import { getPath } from '../../utils/paths';
@@ -26,8 +26,8 @@ const editionSpeakers = allSpeakers.filter(s => s.data.edition === edition.id);
 const allSessions = await getCollection('sessions');
 const editionSessions = allSessions.filter(s => s.data.edition === edition.id);
 
-const allPosts = await getCollection('posts');
-const editionPosts = allPosts.filter(p => p.data.editionSlug === edition.id);
+const allPresentations = await getCollection('presentations');
+const editionPresentations = allPresentations.filter(p => p.data.editionSlug === edition.id);
 ---
 
 <BaseLayout title={`${name} - {{SITE_NAME}}`} description={theme || `Chi tiết về ${name}`}>
@@ -89,12 +89,12 @@ const editionPosts = allPosts.filter(p => p.data.editionSlug === edition.id);
       </div>
     </div>
     
-    {editionPosts.length > 0 && (
+    {editionPresentations.length > 0 && (
       <div class="mt-24 pt-16 border-t border-slate-200 dark:border-slate-800">
-        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-10 tracking-tight">Bài viết & Tổng kết liên quan</h2>
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-10 tracking-tight">Thuyết trình & Tổng kết liên quan</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {editionPosts.map(post => (
-            <PostCard post={post} />
+          {editionPresentations.map(presentation => (
+            <PresentationCard presentation={presentation} />
           ))}
         </div>
       </div>

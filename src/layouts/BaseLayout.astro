@@ -27,11 +27,22 @@ const { title, description, image } = Astro.props;
 			}
 		</script>
 	</head>
-	<body class="min-h-screen flex flex-col font-sans antialiased text-slate-900 bg-muted dark:text-slate-100 dark:bg-slate-950 selection:bg-primary/20 dark:selection:bg-primary/40 transition-colors duration-300">
-		<Header />
-		<main class="flex-grow">
-			<slot />
-		</main>
-		<Footer />
+	<body class="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 dark:text-slate-200 dark:bg-[#0b0f19] selection:bg-accent/30 dark:selection:bg-accent/40 transition-colors duration-300 relative">
+		<!-- Ambient Glow Overlays (VueJS Amsterdam style) -->
+		<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+			<div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] lg:w-[40%] lg:h-[40%] rounded-full bg-primary/20 blur-[120px] mix-blend-screen opacity-50 dark:opacity-30 dark:mix-blend-screen animate-pulse" style="animation-duration: 8s;"></div>
+			<div class="absolute top-[10%] -right-[10%] w-[40%] h-[40%] lg:w-[30%] lg:h-[30%] rounded-full bg-accent/20 blur-[120px] mix-blend-screen opacity-50 dark:opacity-30 dark:mix-blend-screen animate-pulse" style="animation-duration: 12s; animation-delay: 2s;"></div>
+		</div>
+		
+		<!-- Global subtle mesh/grid for premium feel -->
+		<div class="fixed inset-0 pointer-events-none opacity-5 dark:opacity-10 z-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0.1))]"></div>
+		
+		<div class="relative z-10 flex flex-col min-h-screen">
+			<Header />
+			<main class="flex-grow">
+				<slot />
+			</main>
+			<Footer />
+		</div>
 	</body>
 </html>
