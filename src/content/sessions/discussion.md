@@ -9,7 +9,6 @@ summary: "Thảo luận"
 speakers:
   - "harry-ha"
   - "khoaipx"
-  - "lanpn"
 status: "published" # draft | published
 ---
 
