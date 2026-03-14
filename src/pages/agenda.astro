@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SessionCard from '../components/SessionCard.astro';
+import { getEntry, getCollection } from 'astro:content';
+import { SITE_CONFIG } from '../content/site-config';
+
+const currentEdition = await getEntry('editions', SITE_CONFIG.currentEditionSlug);
+
+const allSessions = await getCollection('sessions');
+const currentSessions = allSessions.filter(s => s.data.edition === SITE_CONFIG.currentEditionSlug && s.data.status === 'published');
+
+// Sort sessions by time, fallback to sortOrder
+currentSessions.sort((a, b) => {
+  if (a.data.startTime && b.data.startTime) {
+    const timeCompare = a.data.startTime.localeCompare(b.data.startTime);
+    if (timeCompare !== 0) return timeCompare;
+  }
+  return (a.data.sortOrder || 0) - (b.data.sortOrder || 0);
+});
+
+const { name, theme, speakerProposalUrl } = currentEdition?.data || {};
+---
+
+<BaseLayout title={`Lịch trình - ${name || '{{SITE_NAME}}'}`} description={`Lịch trình sự kiện ${name}`}>
+  <div class="bg-white dark:bg-slate-950 py-16 sm:py-24 transition-colors duration-300 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">Lịch trình</h1>
+        <p class="text-xl text-slate-500 dark:text-slate-400 font-light">{name ? `Lịch trình sự kiện ${name}` : 'Tham gia cùng chúng tôi để có một buổi tối chia sẻ kỹ thuật chuyên sâu.'}</p>
+      </div>
+      
+      {currentSessions.length > 0 ? (
+        <div class="space-y-4">
+          {currentSessions.map(session => (
+            <SessionCard session={session} />
+          ))}
+        </div>
+      ) : (
+        <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Lịch trình sẽ sớm được công bố</h2>
+          <p class="text-lg text-slate-500 dark:text-slate-400 mb-8 font-light">Chúng tôi đang hoàn thiện lịch trình. Vui lòng quay lại sau!</p>
+          {speakerProposalUrl && (
+            <a href={speakerProposalUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-primary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors shadow-sm">
+              Bạn muốn trở thành diễn giả? Gửi bài trình bày
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>

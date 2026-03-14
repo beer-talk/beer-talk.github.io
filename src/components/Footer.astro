@@ -1,0 +1,17 @@
+---
+import { SITE_CONFIG } from '../content/site-config';
+const today = new Date();
+---
+<footer class="bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 mt-24 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+    <p class="text-center text-base text-slate-600 dark:text-slate-400 mb-4 font-medium">
+      {SITE_CONFIG.name} — {SITE_CONFIG.tagline}
+    </p>
+    <p class="text-center text-sm text-slate-500 dark:text-slate-500">
+      &copy; {today.getFullYear()} {SITE_CONFIG.organizerName}. Mọi quyền được bảo lưu.
+    </p>
+    <p class="text-center text-sm text-slate-500 dark:text-slate-500 mt-2">
+      Liên hệ: <a href={`mailto:${SITE_CONFIG.organizerEmail}`} class="hover:text-primary dark:hover:text-primary transition-colors underline decoration-slate-300 dark:decoration-slate-700 underline-offset-4">{SITE_CONFIG.organizerEmail}</a>
+    </p>
+  </div>
+</footer>

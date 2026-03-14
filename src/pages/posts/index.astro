@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts');
+const publishedPosts = allPosts
+  .filter(p => p.data.status === 'published')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Group posts by edition slug
+const groupedPosts = publishedPosts.reduce((acc, post) => {
+  const edition = post.data.editionSlug || 'General';
+  if (!acc[edition]) {
+    acc[edition] = [];
+  }
+  acc[edition].push(post);
+  return acc;
+}, {} as Record<string, any[]>);
+
+// Get unique edition slugs sorted descending (General at the end maybe, or just alphabetical)
+const sortedEditions = Object.keys(groupedPosts).sort((a, b) => {
+  if (a === 'General') return 1;
+  if (b === 'General') return -1;
+  return b.localeCompare(a); // Simple string fallback sort
+});
+---
+
+<BaseLayout title="Bài viết & Thông tin mới nhất" description="Đọc các bài tổng kết, ghi chép phiên và thông báo mới nhất của chúng tôi.">
+  <div class="px-6 sm:px-12 py-16 sm:py-24 max-w-7xl mx-auto">
+    <div class="mb-16">
+      <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">Thông tin mới nhất</h1>
+      <p class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed font-light">Tổng kết sự kiện, phỏng vấn diễn giả và các bài viết kỹ thuật chuyên sâu từ cộng đồng DDOSS.</p>
+    </div>
+    
+    {sortedEditions.length > 0 ? (
+      <div class="space-y-20">
+        {sortedEditions.map(editionSlug => (
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-4 mb-8">
+              {editionSlug === 'General' ? 'Thông tin chung' : `Sự kiện: ${editionSlug}`}
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {groupedPosts[editionSlug].map(post => (
+                <PostCard post={post} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-20 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <p class="text-slate-500 dark:text-slate-400 text-lg font-light">Chưa có bài viết nào được xuất bản. Vui lòng quay lại sau!</p>
+      </div>
+    )}
+  </div>
+</BaseLayout>

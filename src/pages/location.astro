@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getEntry } from 'astro:content';
+import { SITE_CONFIG } from '../content/site-config';
+
+const currentEdition = await getEntry('editions', SITE_CONFIG.currentEditionSlug);
+
+const { name, venueName, venueAddress, faq } = currentEdition?.data || {};
+---
+
+<BaseLayout title={`Địa điểm & FAQ - ${name || '{{SITE_NAME}}'}`} description={`Địa điểm và thông tin chi tiết cho ${name}`}>
+  <div class="bg-white dark:bg-slate-950 py-16 sm:py-24 transition-colors duration-300 min-h-screen">
+    
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-24">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mb-10 tracking-tight">Địa điểm</h1>
+      {venueName ? (
+        <div class="bg-slate-900 text-white p-12 rounded-3xl shadow-xl relative overflow-hidden text-left sm:text-center">
+          <div class="absolute top-0 right-0 -mt-10 -mr-10 text-white/5 pointer-events-none">
+            <svg width="200" height="200" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+          <div class="relative z-10">
+            <p class="text-3xl font-bold mb-4">{venueName}</p>
+            {venueAddress && <p class="text-xl text-blue-200 leading-relaxed max-w-lg mx-auto font-light">{venueAddress}</p>}
+            
+            <div class="mt-8 flex justify-start sm:justify-center">
+              <a href={`https://maps.google.com/?q=${encodeURIComponent(venueName + ', ' + (venueAddress || ''))}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white border border-white/30 px-8 py-4 rounded-xl hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-900 font-bold text-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+                Xem Bản Đồ
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Địa điểm sẽ sớm được công bố</h2>
+          <p class="text-lg text-slate-500 dark:text-slate-400 font-light">Thông tin về địa điểm sẽ được cập nhật trong thời gian tới.</p>
+        </div>
+      )}
+    </div>
+
+    {faq && faq.length > 0 && (
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-16 border-t border-slate-200 dark:border-slate-800">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight text-center mb-16">Câu Hỏi Thường Gặp</h2>
+        <div class="space-y-8">
+          {faq.map(item => (
+            <div class="bg-slate-50 dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800">
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{item.question}</h3>
+              <p class="text-slate-600 dark:text-slate-400 leading-relaxed font-light">{item.answer}</p>
+             </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+  </div>
+</BaseLayout>

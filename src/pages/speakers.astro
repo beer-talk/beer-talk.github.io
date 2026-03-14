@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SpeakerCard from '../components/SpeakerCard.astro';
+import { getEntry, getCollection } from 'astro:content';
+import { SITE_CONFIG } from '../content/site-config';
+
+const currentEdition = await getEntry('editions', SITE_CONFIG.currentEditionSlug);
+
+const allSpeakers = await getCollection('speakers');
+const currentSpeakers = allSpeakers
+  .filter(s => s.data.edition === SITE_CONFIG.currentEditionSlug && s.data.status === 'published')
+  .sort((a, b) => (a.data.sortOrder || 0) - (b.data.sortOrder || 0));
+
+const { name, speakerProposalUrl } = currentEdition?.data || {};
+---
+
+<BaseLayout title={`Diễn giả - ${name || '{{SITE_NAME}}'}`} description={`Diễn giả nổi bật tại ${name}`}>
+  <div class="bg-slate-50 dark:bg-slate-900 py-16 sm:py-24 transition-colors duration-300 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">Diễn giả Nổi bật</h1>
+        <p class="text-xl text-slate-500 dark:text-slate-400 font-light">Các chuyên gia chia sẻ về nghiên cứu và kinh nghiệm thực tiễn.</p>
+      </div>
+      
+      {currentSpeakers.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {currentSpeakers.map(speaker => (
+            <SpeakerCard speaker={speaker} />
+          ))}
+        </div>
+      ) : (
+        <div class="bg-white dark:bg-slate-950 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800 max-w-3xl mx-auto">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Diễn giả sẽ sớm được công bố</h2>
+          <p class="text-lg text-slate-500 dark:text-slate-400 mb-8 font-light">Chúng tôi đang hoàn thiện danh sách khách mời. Vui lòng quay lại sau!</p>
+          {speakerProposalUrl && (
+            <a href={speakerProposalUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-primary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors shadow-sm">
+              Gửi bài trình bày
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>

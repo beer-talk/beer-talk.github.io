@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EditionCard from '../../components/EditionCard.astro';
+import { getCollection } from 'astro:content';
+import { SITE_CONFIG } from '../../content/site-config';
+
+const allEditions = await getCollection('editions');
+
+const currentEdition = allEditions.find(edition => edition.id === SITE_CONFIG.currentEditionSlug);
+
+const pastEditions = allEditions
+  .filter(edition => edition.id !== SITE_CONFIG.currentEditionSlug)
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+---
+
+<BaseLayout title={`Sự kiện đã qua - {{SITE_NAME}}`} description="Lưu trữ các sự kiện meetup trước đây của chúng tôi.">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="mb-16">
+      <h1 class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">Danh Sách Sự Kiện</h1>
+      <p class="text-xl text-slate-500 dark:text-slate-400 font-light">Khám phá các chuỗi sự kiện meetup đang diễn ra và đã qua.</p>
+    </div>
+    
+    {currentEdition && (
+      <div class="mb-20">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-4 mb-8">Sự kiện hiện tại</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <EditionCard edition={currentEdition} />
+        </div>
+      </div>
+    )}
+
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-4 mb-8">Sự kiện đã qua</h2>
+      {pastEditions.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {pastEditions.map(edition => (
+            <EditionCard edition={edition} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-20 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+          <p class="text-slate-500 dark:text-slate-400 text-lg font-light">Chưa có sự kiện nào được lưu trữ.</p>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  speaker: CollectionEntry<'speakers'>;
+}
+
+const { speaker } = Astro.props;
+const { name, title, company, avatarUrl, github, twitter, linkedin, website, talkTitle } = speaker.data;
+---
+<div class="group relative flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm hover:border-primary/30 dark:hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out cursor-pointer">
+  <a href={`/speakers/${speaker.id}`} class="absolute inset-0 z-0 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"><span class="sr-only">Xem {name}</span></a>
+  
+  <div class="relative z-10 w-24 h-24 rounded-full overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800 border-2 border-primary/10 dark:border-primary/20">
+    {avatarUrl ? (
+      <img src={avatarUrl} alt={name} class="w-full h-full object-cover" />
+    ) : (
+      <div class="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-600">
+        <svg fill="currentColor" viewBox="0 0 24 24" class="w-12 h-12"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+      </div>
+    )}
+  </div>
+  <h3 class="relative z-10 text-lg font-bold text-slate-900 dark:text-white text-center group-hover:text-primary dark:group-hover:text-primary transition-colors">{name}</h3>
+  {title && <p class="relative z-10 text-sm text-slate-600 dark:text-slate-400 text-center mt-1 font-light">{title}{company && ` @ ${company}`}</p>}
+  
+  {talkTitle && (
+    <div class="relative z-10 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 w-full text-center pointer-events-none">
+      <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide mb-1">Trình bày về</p>
+      <p class="text-sm font-medium text-slate-800 dark:text-slate-200 line-clamp-2">{talkTitle}</p>
+    </div>
+  )}
+  
+  <div class="relative z-20 flex justify-center flex-wrap gap-x-3 gap-y-2 mt-5">
+    {github && <a href={github} target="_blank" rel="noopener noreferrer" class="text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm">GitHub</a>}
+    {twitter && <a href={twitter} target="_blank" rel="noopener noreferrer" class="text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-blue-400 dark:hover:text-blue-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm">X</a>}
+    {linkedin && <a href={linkedin} target="_blank" rel="noopener noreferrer" class="text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-blue-700 dark:hover:text-blue-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm">LinkedIn</a>}
+    {website && <a href={website} target="_blank" rel="noopener noreferrer" class="text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-primary dark:hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm">Web</a>}
+  </div>
+</div>

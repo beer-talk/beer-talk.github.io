@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SpeakerCard from '../../components/SpeakerCard.astro';
+import SessionCard from '../../components/SessionCard.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_CONFIG } from '../../content/site-config';
+import { getPath } from '../../utils/paths';
+
+export async function getStaticPaths() {
+  const editions = await getCollection('editions');
+  const validEditions = editions.filter(edition => !edition.id.includes('_blueprint'));
+  return validEditions.map(edition => ({
+    params: { slug: edition.id },
+    props: { edition },
+  }));
+}
+
+const { edition } = Astro.props;
+const { Content } = await render(edition);
+const { name, date, time, venueName, venueAddress, theme } = edition.data;
+
+const allSpeakers = await getCollection('speakers');
+const editionSpeakers = allSpeakers.filter(s => s.data.edition === edition.id);
+
+const allSessions = await getCollection('sessions');
+const editionSessions = allSessions.filter(s => s.data.edition === edition.id);
+
+const allPosts = await getCollection('posts');
+const editionPosts = allPosts.filter(p => p.data.editionSlug === edition.id);
+---
+
+<BaseLayout title={`${name} - {{SITE_NAME}}`} description={theme || `Chi tiết về ${name}`}>
+  <article class="bg-slate-50 dark:bg-slate-900 py-16 lg:py-24 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <a href={getPath("/editions")} class="text-primary dark:text-indigo-400 hover:text-blue-700 dark:hover:text-indigo-300 font-bold text-sm flex items-center gap-1 mb-8 transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-sm w-fit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Quay lại danh sách
+      </a>
+      {edition.id === SITE_CONFIG.currentEditionSlug && (
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300 mb-6 border border-indigo-100 dark:border-indigo-800/50">
+          Sự kiện hiện tại
+        </span>
+      )}
+      <p class="text-slate-400 dark:text-slate-500 font-bold tracking-widest uppercase mb-4 text-sm">{date} {time && `• ${time}`}</p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4 leading-tight">{name}</h1>
+      {theme && <p class="text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">{theme}</p>}
+    </div>
+  </article>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+      <div class="lg:col-span-2">
+        <div class="prose prose-lg prose-slate dark:prose-invert max-w-none font-sans font-light text-slate-700 dark:text-slate-300 leading-relaxed">
+          <Content />
+        </div>
+        
+        {editionSessions.length > 0 && (
+          <div class="mt-16 pt-12 border-t border-slate-100 dark:border-slate-800">
+            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-8 tracking-tight">Lịch trình</h2>
+            <div class="space-y-4">
+              {editionSessions.map(session => (
+                <SessionCard session={session} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div class="space-y-12">
+        {(venueName || venueAddress) && (
+          <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Địa điểm</h3>
+            {venueName && <p class="font-bold text-slate-900 dark:text-white text-lg">{venueName}</p>}
+            {venueAddress && <p class="text-md text-slate-600 dark:text-slate-400 mt-2 font-light">{venueAddress}</p>}
+          </div>
+        )}
+
+        {editionSpeakers.length > 0 && (
+          <div>
+            <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-6">Diễn giả</h3>
+            <div class="space-y-6">
+              {editionSpeakers.map(speaker => (
+                <SpeakerCard speaker={speaker} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+    
+    {editionPosts.length > 0 && (
+      <div class="mt-24 pt-16 border-t border-slate-200 dark:border-slate-800">
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-10 tracking-tight">Bài viết & Tổng kết liên quan</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {editionPosts.map(post => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</BaseLayout>

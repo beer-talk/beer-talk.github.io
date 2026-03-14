@@ -1,0 +1,25 @@
+---
+import { SITE_CONFIG } from '../content/site-config';
+import { getPath } from '../utils/paths';
+import ThemeToggle from './ThemeToggle.astro';
+---
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b sm:border border-slate-200 dark:border-slate-800 sticky top-0 sm:top-6 z-50 transition-all duration-300 w-full sm:w-[calc(100%-3rem)] max-w-7xl mx-auto rounded-none sm:rounded-2xl shadow-sm hover:shadow-md dark:shadow-none">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <div class="flex">
+        <a href={getPath('/')} class="flex items-center text-xl font-bold tracking-tight text-slate-900 dark:text-white hover:text-primary dark:hover:text-primary transition-colors">
+          {SITE_CONFIG.name}
+        </a>
+      </div>
+      <nav class="hidden sm:ml-6 sm:flex sm:space-x-8 sm:items-center">
+        <a href={getPath('/')} class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Sự kiện hiện tại</a>
+        <a href={getPath('/agenda')} class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Lịch trình</a>
+        <a href={getPath('/speakers')} class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Diễn giả</a>
+        <a href={getPath('/location')} class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Địa điểm</a>
+        <a href={getPath('/editions')} class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Sự kiện đã qua</a>
+        <a href={getPath('/posts')} class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Bài viết</a>
+        <ThemeToggle />
+      </nav>
+    </div>
+  </div>
+</header>
