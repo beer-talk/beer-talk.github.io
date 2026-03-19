@@ -16,6 +16,10 @@ const editionsCollection = defineCollection({
       question: z.string(),
       answer: z.string(),
     })).optional(),
+    callToTalkTopics: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+    })).optional(),
     highlights: z.array(z.object({
       title: z.string(),
       description: z.string(),

@@ -127,6 +127,22 @@ const {
         </section>
       )}
 
+      {/* Call to Talk Section */}
+      <section class="bg-slate-50 dark:bg-[#0b0f19] py-32 border-y border-slate-200 dark:border-white/5 relative overflow-hidden">
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <h2 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter uppercase">Call to <span class="text-primary dark:text-accent font-light italic">Talk</span></h2>
+          <div class="w-16 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-8"></div>
+          <p class="text-xl text-slate-600 dark:text-slate-400 font-light mb-12 max-w-3xl mx-auto leading-relaxed">
+            Bạn có một câu chuyện công nghệ thú vị, một case study đáng để học hỏi hay một ý tưởng đột phá? Hãy chia sẻ kiến thức và đam mê của bạn bằng cách trở thành diễn giả tại sự kiện tiếp theo của chúng tôi.
+          </p>
+          <a href={getPath('/call-to-talk')} class="group relative px-10 py-5 bg-transparent border border-primary text-primary font-bold uppercase tracking-widest text-sm sm:text-base rounded-full hover:bg-primary/10 hover:shadow-neon-primary transition-all duration-300 inline-flex items-center gap-3">
+            <span>Tìm hiểu thêm & Đăng ký</span>
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+        </div>
+      </section>
+
       {/* 4. Quick Links CTA */}
       <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pb-32 text-center">
         <h2 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-16 tracking-tighter">Sẵn Sàng Tham Gia?</h2>

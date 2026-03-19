@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPath } from '../utils/paths';
+import { SITE_CONFIG } from '../content/site-config';
+---
+
+<BaseLayout title={`Tài trợ - ${SITE_CONFIG.name || '{{SITE_NAME}}'}`} description="Hỗ trợ tài chính cho ban tổ chức sự kiện">
+  <div class="bg-slate-50 dark:bg-[#0b0f19] py-24 sm:py-32 transition-colors duration-300 min-h-screen relative overflow-hidden">
+    <!-- Background element -->
+    <div class="absolute top-0 right-0 w-1/2 h-1/2 bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-16">
+        <h1 class="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tracking-tighter mb-6 uppercase">Ủng hộ <span class="text-primary dark:text-accent font-light italic">Ban tổ chức</span></h1>
+        <div class="w-16 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6"></div>
+        <p class="text-xl text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto mb-8">
+          Sự kiện của chúng tôi được tổ chức hoàn toàn phi lợi nhuận nhằm xây dựng và kết nối cộng đồng. Sự đóng góp của bạn sẽ giúp chúng tôi bù đắp một phần chi phí vận hành, thuê địa điểm và chuẩn bị những buổi "Beer Talk" chất lượng hơn trong tương lai.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Chuyển khoản ngân hàng -->
+        <div class="bg-white dark:bg-[#050812] border border-slate-200 dark:border-white/10 p-8 sm:p-10 rounded-3xl shadow-md dark:shadow-none hover:border-primary/50 transition-colors flex flex-col justify-center">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Thông tin Chuyển khoản</h2>
+          
+          <div class="space-y-5 text-slate-700 dark:text-slate-300">
+            <div>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Ngân hàng</p>
+              <p class="font-bold text-lg dark:text-white">Ngân hàng TMCP Ngoại thương Việt Nam<br/><span class="text-sm font-normal">(Vietcombank)</span></p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Chủ tài khoản</p>
+              <p class="font-bold text-lg dark:text-white uppercase">[Tên chủ tài khoản]</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Số tài khoản</p>
+              <p class="font-mono font-bold text-2xl text-primary dark:text-accent tracking-wider">0123456789</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mb-1">Nội dung chuyển khoản (tuỳ chọn)</p>
+              <p class="font-mono bg-slate-100 dark:bg-white/5 p-3 rounded-xl text-sm break-all font-semibold">DONATE BEER TALK - [Tên hoặc Nickname của bạn]</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quét mã QR -->
+        <div class="bg-white dark:bg-[#050812] border border-slate-200 dark:border-white/10 p-8 sm:p-10 rounded-3xl shadow-md dark:shadow-none hover:border-accent/50 transition-colors text-center flex flex-col items-center justify-center">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Quét mã QR</h2>
+          
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 dark:border-white/20 mb-4 items-center justify-center flex mx-auto w-full max-w-[240px] aspect-square shadow-inner">
+            <!-- Mock QR Code. Replace with real QR code image path -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=0123456789-Vietcombank" alt="Mã QR chuyển khoản" class="w-full h-auto opacity-60 block" />
+          </div>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 italic px-4">
+            Mở ứng dụng ngân hàng hoặc ví điện tử để quét mã thanh toán tiện lợi.
+          </p>
+          <p class="text-xs text-rose-500 mt-6 bg-rose-50 dark:bg-rose-500/10 px-3 py-2 rounded-lg inline-block">
+            *(Ảnh QR và thông tin tài khoản hiện tại chỉ là dữ liệu mẫu - mock data, vui lòng cập nhật lại với thông tin thật)
+          </p>
+        </div>
+      </div>
+
+      <div class="text-center mt-20 max-w-2xl mx-auto">
+        <div class="relative">
+          <span class="absolute -top-6 -left-4 text-6xl text-primary/20 font-serif">"</span>
+          <p class="text-slate-600 dark:text-slate-300 italic text-xl sm:text-2xl border-l-4 border-primary pl-6 py-2 pr-4 rounded-r-xl leading-relaxed relative z-10">
+            Chúng tôi vô cùng trân trọng mọi sự chung tay của bạn. Một cốc bia lạnh hay một khoản tài trợ nhỏ cũng là động lực rất lớn đối với đội ngũ.
+          </p>
+          <span class="absolute -bottom-10 -right-4 text-6xl text-primary/20 font-serif">"</span>
+        </div>
+        <p class="font-bold mt-8 text-slate-900 dark:text-white uppercase tracking-widest text-sm">— Ban Tổ Chức Beer Talk</p>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

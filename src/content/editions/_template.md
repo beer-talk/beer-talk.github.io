@@ -7,6 +7,9 @@ venueAddress: "[Địa chỉ cụ thể]"
 theme: "[Chủ đề của sự kiện]"
 registrationUrl: "[Link đăng ký Luma/Eventbrite]"
 speakerProposalUrl: "[Link form Call for Speakers]"
+callToTalkTopics:
+  - title: "[Chủ đề Call to Talk 1]"
+    description: "[Mô tả chủ đề]"
 faq:
   - question: "[Câu hỏi thường gặp 1]"
     answer: "[Câu trả lời 1]"

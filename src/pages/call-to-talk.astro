@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPath } from '../utils/paths';
+import { getEntry } from 'astro:content';
+import { SITE_CONFIG } from '../content/site-config';
+
+const currentEdition = await getEntry('editions', SITE_CONFIG.currentEditionSlug);
+const { name, speakerProposalUrl, registrationUrl, callToTalkTopics } = currentEdition?.data || {};
+
+const topics = callToTalkTopics && callToTalkTopics.length > 0 ? callToTalkTopics : [
+  { title: "Software Engineering", description: "Architecture, Design Patterns, Best Practices" },
+  { title: "Cloud & DevOps", description: "AWS, GCP, K8s, CI/CD, SRE" },
+  { title: "Data & AI", description: "Machine Learning, LLMs, Data Engineering" },
+  { title: "Frontend & Backend", description: "React, Vue, Node.js, Go, Rust, System Design" }
+];
+---
+
+<BaseLayout title={`Call to Talk - ${name || '{{SITE_NAME}}'}`} description="Đăng ký trở thành diễn giả tại sự kiện của chúng tôi">
+  <div class="bg-slate-50 dark:bg-[#0b0f19] py-24 sm:py-32 transition-colors duration-300 min-h-screen relative overflow-hidden">
+    <!-- Background element -->
+    <div class="absolute top-0 left-0 w-1/2 h-1/2 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-16">
+        <h1 class="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tracking-tighter mb-6 uppercase">Call to <span class="text-primary dark:text-accent font-light italic">Talk</span></h1>
+        <div class="w-16 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6"></div>
+        <p class="text-xl text-slate-500 dark:text-slate-400 font-light max-w-2xl mx-auto">Trở thành một phần của sự kiện và chia sẻ kiến thức, kinh nghiệm của bạn với cộng đồng.</p>
+      </div>
+      
+      <div class="prose prose-lg prose-slate dark:prose-invert md:prose-xl mx-auto text-slate-700 dark:text-slate-300 leading-relaxed font-sans font-light bg-white/50 dark:bg-[#050812] border border-slate-200 dark:border-white/10 p-10 sm:p-16 rounded-3xl shadow-sm dark:shadow-none">
+        
+        <h2 class="text-3xl font-bold text-slate-900 dark:text-white mt-0">Tại sao bạn nên trở thành diễn giả?</h2>
+        <ul class="space-y-4">
+          <li><strong class="text-primary dark:text-accent">Chia sẻ kiến thức:</strong> Lan toả những chuyên môn và kinh nghiệm thực tế của bạn tới một cộng đồng đam mê công nghệ.</li>
+          <li><strong class="text-primary dark:text-accent">Mở rộng kết nối:</strong> Cơ hội giao lưu với các chuyên gia, diễn giả và những người chung chí hướng.</li>
+          <li><strong class="text-primary dark:text-accent">Phát triển bản thân:</strong> Rèn luyện kỹ năng thuyết trình, củng cố kiến thức và xây dựng thương hiệu cá nhân.</li>
+          <li><strong class="text-primary dark:text-accent">Đóng góp cộng đồng:</strong> Cùng nhau xây dựng một cộng đồng IT Việt Nam ngày càng lớn mạnh.</li>
+        </ul>
+
+        <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Các chủ đề ưu tiên (Topics)</h2>
+        <p>Các chủ đề dành riêng cho sự kiện lần này bao gồm:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose mt-6 mb-10">
+          {topics.map(topic => (
+            <div class="bg-slate-100 dark:bg-white/5 p-4 rounded-xl border border-slate-200 dark:border-white/10 hover:border-primary/50 transition-colors">
+              <span class="font-bold text-slate-900 dark:text-white block">{topic.title}</span>
+              <span class="text-sm text-slate-500 mt-1 block">{topic.description}</span>
+            </div>
+          ))}
+        </div>
+
+        <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Định dạng bài nói (Format)</h2>
+        <p>Để tạo sự đa dạng và trải nghiệm tốt nhất, chúng tôi có các định dạng sau:</p>
+        <ul class="space-y-4">
+          <li><strong>Lightning Talk (10-15 phút):</strong> Chia sẻ nhanh về một ý tưởng, dự án, hoặc công cụ hữu ích.</li>
+          <li><strong>Deep Dive (30-45 phút):</strong> Trình bày chi tiết, chuyên sâu về một công nghệ, case study hoặc giải pháp kỹ thuật phức tạp.</li>
+          <li><strong>Workshop (60-90 phút):</strong> Hướng dẫn thực hành (hands-on) trực tiếp với khán giả.</li>
+        </ul>
+
+        <hr class="my-12 border-slate-200 dark:border-white/10" />
+        
+        <div class="text-center mt-12 bg-slate-50 dark:bg-[#0b0f19] border border-slate-200 dark:border-white/10 p-8 sm:p-10 rounded-2xl not-prose">
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Sẵn sàng cùng Beer Talk?</h3>
+          <p class="mb-8 text-slate-600 dark:text-slate-400">Hãy chọn hình thức đăng ký phù hợp với bạn cho sự kiện sắp tới. Ban tổ chức sẽ liên hệ lại qua email trong thời gian sớm nhất.</p>
+          
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {registrationUrl ? (
+              <a href={registrationUrl} target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-5 bg-transparent border border-primary text-primary font-bold uppercase tracking-widest text-sm rounded-full hover:bg-primary/10 transition-all duration-300">
+                Đăng ký Tham gia
+              </a>
+            ) : (
+              <span class="w-full sm:w-auto px-8 py-5 bg-white/5 text-slate-400 font-bold uppercase tracking-widest text-sm cursor-not-allowed border border-white/10 text-center rounded-full">
+                Chưa mở Đăng ký
+              </span>
+            )}
+
+            {speakerProposalUrl ? (
+              <a href={speakerProposalUrl} target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-5 bg-primary text-white font-bold uppercase tracking-widest text-sm rounded-full hover:bg-orange-500 hover:shadow-neon-primary transition-all duration-300">
+                Làm Diễn giả
+              </a>
+            ) : (
+              <span class="w-full sm:w-auto px-8 py-5 bg-white/5 text-slate-400 font-bold uppercase tracking-widest text-sm cursor-not-allowed border border-white/10 text-center rounded-full">
+                Chưa mở Call for Papers
+              </span>
+            )}
+          </div>
+          {(!registrationUrl || !speakerProposalUrl) && (
+            <p class="text-sm text-slate-500 mt-6 italic">* Chú ý: Một số link đăng ký có thể chưa được mở cho số này.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
